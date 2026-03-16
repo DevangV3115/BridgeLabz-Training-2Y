@@ -1,0 +1,219 @@
+Problem 1: Understanding Recursion Mechanics
+(a) Recursive Function Structure (Pseudocode)
+
+To compute the total size of a directory, recursion is used because directories can contain subdirectories, which again contain files or other directories.
+
+Base Case: If the item is a file, return its size.
+
+Recursive Case: If the item is a directory, recursively calculate the size of all its contents and sum them.
+
+
+
+Pseudocode
+function getDirectorySize(path):
+
+    if path is a FILE then
+        return size(path)          // Base Case
+
+    totalSize = 0
+
+    for each item in path:
+        totalSize = totalSize + getDirectorySize(item)   // Recursive Call
+
+    return totalSize
+
+
+
+Base Case
+if path is a FILE → return file size
+
+Recursive Case
+if path is a DIRECTORY → call function for each item inside it
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+(b) Execution Trace and Call Stack
+
+Directory Structure
+project/
+ ├─ src/
+ │   ├─ main.java (100 KB)
+ │   └─ utils.java (50 KB)
+ ├─ docs/
+ │   ├─ readme.txt (10 KB)
+ │   └─ guides/
+ │       └─ setup.pdf (200 KB)
+ └─ config.xml (20 KB)
+
+
+Step 1: Initial Call
+getDirectorySize(project)
+
+Call Stack
+getDirectorySize(project)
+
+
+Step 2: Enter src directory
+getDirectorySize(project)
+   └── getDirectorySize(src)
+
+Call Stack
+project
+└── src
+
+
+Files inside src:
+
+main.java = 100
+utils.java = 50
+Return value
+
+src = 100 + 50 = 150 KB
+
+
+Step 3: Enter docs directory
+
+Call Stack
+project
+└── docs
+
+
+Inside docs:
+readme.txt = 10
+guides/
+
+Recursive call:
+getDirectorySize(guides)
+Call Stack
+
+project
+└── docs
+    └── guides
+
+
+File:
+setup.pdf = 200
+
+Return:
+guides = 200
+
+Now docs total:
+docs = 10 + 200 = 210 KB
+
+
+Step 4: config.xml
+config.xml = 20 KB
+
+Final Calculation
+src = 150
+docs = 210
+config.xml = 20
+
+Total:
+project = 150 + 210 + 20
+project = 380 KB
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+(c) Time Complexity
+
+Let:
+F = number of files
+D = number of directories
+Each file and directory is visited exactly once.
+
+Time Complexity
+O(F + D)
+or simply
+O(N)
+where N = total number of filesystem objects.
+
+
+Explanation
+The function performs:
+One operation per file
+One traversal per directory
+
+Thus total operations grow linearly with total elements.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+(d) Iterative Solution
+Yes, the problem can also be solved iteratively.
+
+Required Data Structure
+A Stack (or Queue for BFS traversal).
+
+
+
+Iterative Pseudocode
+
+function getDirectorySizeIterative(root):
+
+    stack.push(root)
+    totalSize = 0
+
+    while stack is not empty:
+
+        item = stack.pop()
+
+        if item is file:
+            totalSize += size(item)
+
+        else if item is directory:
+            push all items inside item into stack
+
+    return totalSize
+
+
+Comparison
+
+Feature  	            Recursive Approach      	                Iterative Approach
+Code simplicity	            Very simple	                                Slightly more complex
+Memory usage	            Uses call stack	                        Uses explicit stack
+Stack overflow risk	    Possible for very deep trees	        Less risk
+Readability	            More natural for tree structures	        More control over memory
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+(e) Handling Cycles (Symbolic Links)
+If a symbolic link points to a parent directory, it creates a cycle.
+
+Example:
+
+A → B → C → A
+This causes infinite recursion.
+
+Solution: Track Visited Directories
+Use a set of visited paths.
+
+
+
+Modified Pseudocode
+visited = set()
+
+function getDirectorySize(path):
+
+    if path in visited:
+        return 0
+
+    add path to visited
+
+    if path is FILE:
+        return size(path)
+
+    totalSize = 0
+
+    for each item in path:
+        totalSize += getDirectorySize(item)
+
+    return totalSize
+
+
+Updated Base Case
+if path already visited → return 0
+This prevents infinite recursion due to cycles.
+
+Final Result
+Total directory size for the given structure:
+380 KB

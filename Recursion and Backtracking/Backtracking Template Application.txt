@@ -1,0 +1,243 @@
+Problem 2: Backtracking Template Application
+
+Given Grid
+C  A  T  S
+O  R  E  A
+D  E  A  M
+E  L  L  S
+Target Word: DREAM
+
+Allowed Moves:
+Horizontal
+Vertical
+Diagonal
+Each letter can be used only once per word.
+
+
+(a) Backtracking Algorithm Design
+Backtracking tries all possible paths while undoing choices when they fail.
+
+
+State Representation
+The state consists of:
+Current cell position (row, col)
+Current index k in the target word
+A visited matrix to ensure letters are not reused.
+
+Example state:
+(row, col, k, visited[][])
+Choices at Each Step
+
+From the current cell we can move to 8 possible directions:
+Up
+Down
+Left
+Right
+Diagonal Top-Left
+Diagonal Top-Right
+Diagonal Bottom-Left
+Diagonal Bottom-Right
+
+Constraints
+Next cell must be inside grid boundaries
+Cell must not be visited
+Character must match word[k]
+
+Goal Condition
+If
+k == length(word)
+then the word is successfully formed.
+
+
+Pseudocode
+function exist(grid, word):
+
+    rows = number of rows
+    cols = number of columns
+
+    create visited[rows][cols]
+
+    for each cell (i,j) in grid:
+        if grid[i][j] == word[0]:
+            if backtrack(i, j, 0):
+                return true
+
+    return false
+
+
+function backtrack(row, col, index):
+
+    if index == length(word):
+        return true
+
+    if row < 0 OR col < 0 OR row >= rows OR col >= cols:
+        return false
+
+    if visited[row][col] == true:
+        return false
+
+    if grid[row][col] != word[index]:
+        return false
+
+
+    visited[row][col] = true
+
+    for each of 8 directions:
+        newRow = row + directionRow
+        newCol = col + directionCol
+
+        if backtrack(newRow, newCol, index + 1):
+            return true
+
+    visited[row][col] = false   // backtrack
+
+    return false
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+(b) Decision Tree for “DREAM”
+The word begins with D.
+
+Possible starting position:
+(2,0) → D
+
+Decision Tree:
+
+D(2,0)
+│
+├── R(1,1)
+│    │
+│    ├── E(1,2)
+│    │    │
+│    │    ├── A(2,2)
+│    │    │    │
+│    │    │    └── M(2,3)  ✔ SUCCESS
+│    │    │
+│    │    └── other directions → backtrack
+│    │
+│    └── other E positions → backtrack
+│
+└── other neighbors → backtrack
+
+
+Successful path:
+D → R → E → A → M
+(2,0) (1,1) (1,2) (2,2) (2,3)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(c) Execution Trace
+
+Step 1
+Start search.
+
+D at (2,0)
+index = 0
+Visited:
+
+D
+
+Step 2
+Look for R
+
+Neighbor found:
+
+(1,1) = R
+
+Visited:
+
+D → R
+
+Step 3
+Look for E
+
+(1,2) = E
+
+Visited:
+D → R → E
+
+Step 4
+Look for A
+
+(2,2) = A
+
+Visited:
+
+D → R → E → A
+Step 5
+Look for M
+
+(2,3) = M
+Visited:
+
+D → R → E → A → M
+Word completed → SUCCESS
+
+Example of Backtracking
+If a wrong path occurs:
+
+E → choose wrong neighbor
+Algorithm will:
+
+visited[row][col] = false
+return to previous step
+try another direction
+This restores the state.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+(d) Worst-Case Time Complexity
+
+Let
+Grid size = N × M
+Word length = L
+From each position we can explore 8 directions.
+
+Worst case:
+O(N × M × 8^L)
+
+Explanation:
+Starting position can be any of the N×M cells
+For each character we try up to 8 neighbors
+Backtracking reduces many invalid paths early, so practical runtime is smaller.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+(e) Finding ALL Possible Ways
+Currently the algorithm stops when first solution is found.
+
+To find all paths, we must:
+Remove the early return true
+Store every successful path.
+
+
+Additional Data Structure
+We need:
+List<List<Position>> solutions
+or
+List<String> paths
+to store all valid paths.
+
+
+Modified Logic
+Instead of returning immediately:
+
+if index == length(word):
+    add current path to solutions
+    return
+Continue exploring other possibilities.
+
+Modified Pseudocode
+function backtrack(row, col, index, path):
+
+    if index == length(word):
+        add path to solutions
+        return
+
+    visited[row][col] = true
+
+    for each direction:
+        explore next cell
+
+    visited[row][col] = false
+    remove last element from path
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
