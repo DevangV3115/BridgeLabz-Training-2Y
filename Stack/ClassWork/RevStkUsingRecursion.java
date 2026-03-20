@@ -1,6 +1,6 @@
-package Stacks;
-import java.util.Stack;
 
+import java.util.Stack;
+import java.util.Stack;
 public class RevStkUsingRecursion {
 
     // Function to insert element at bottom

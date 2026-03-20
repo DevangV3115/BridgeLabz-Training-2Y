@@ -1,6 +1,6 @@
-package Stacks;
-import java.util.*;
 
+import java.util.*;
+import java.util.Stack;
 class reverseStack {
     static void insertAtBottom(Stack<Integer> st, int x) {
         if (st.isEmpty()) {

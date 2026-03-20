@@ -1,5 +1,5 @@
 import java.util.*;
-
+import java.util.Stack;
 class DeleteConsecutiveWordInString {
     public static String removeDuplicates(String sentence) {
         String[] words = sentence.split(" ");
