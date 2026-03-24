@@ -2,7 +2,6 @@ import java.util.*;
 
 public class SortAnArrayUsingRecursion {
 
-    // Function to insert element in sorted order
     public static void insert(int[] arr, int n, int key) {
         // Base case
         if (n == 0 || arr[n - 1] <= key) {
@@ -20,7 +19,6 @@ public class SortAnArrayUsingRecursion {
         arr[n] = last;
     }
 
-    // Recursive sort function
     public static void sort(int[] arr, int n) {
         // Base case
         if (n <= 1) return;
