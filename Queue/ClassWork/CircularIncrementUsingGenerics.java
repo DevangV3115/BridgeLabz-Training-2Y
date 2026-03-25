@@ -1,10 +1,8 @@
 public class CircularIncrementUsingGenerics {
-
     // Generic Circular Queue
     static class CircularQueue<T> {
         private T[] arr;
         private int front, back, size;
-
         @SuppressWarnings("unchecked")
         CircularQueue(int size) {
             this.size = size;
@@ -12,7 +10,6 @@ public class CircularIncrementUsingGenerics {
             front = -1;
             back = -1;
         }
-
         // Enqueue
         public void enqueue(T value) {
             if ((back + 1) % size == front) {
@@ -48,7 +45,6 @@ public class CircularIncrementUsingGenerics {
 
             return removed;
         }
-
         // Peek
         public T peek() {
             if (front == -1) {
@@ -57,7 +53,6 @@ public class CircularIncrementUsingGenerics {
             }
             return arr[front];
         }
-
         // Display
         public void display() {
             if (front == -1) {
@@ -74,7 +69,6 @@ public class CircularIncrementUsingGenerics {
             System.out.println();
         }
     }
-
     // Main method
     public static void main(String[] args) {
 
@@ -108,4 +102,4 @@ public class CircularIncrementUsingGenerics {
 
         strQueue.display();
     }
-}
+} 
