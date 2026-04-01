@@ -1,0 +1,29 @@
+if node = n then edges = n-1
+Graph is also a tree iff they are connected to each other
+edge = the connection link between two nodes
+parent node = a node that has 1 or more children
+child node = a node that has a parent node
+root node is not child node
+Node that belongs to the same parent node are called siblings
+Degree of a node = total number of children of any particular node
+Degree of a tree = Highest degree among the nodes
+
+
+Internal Nodes:-
+The nodes which has only one children atleast
+Leaf Node- The node which dont have any child
+Height of a node- longest path from the asked node to leaf node
+Height of a tree- Root to tree longest path
+Depth of node- Longest Path from root node to the current node.
+
+Types of tree:-
+1. Regular tree
+2. Binary Tree
+3. Binary Search Tree
+
+
+Binary Search Tree: 
+the root > left node, root < right node
+
+
+
