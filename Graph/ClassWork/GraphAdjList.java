@@ -1,19 +1,54 @@
 import java.util.*;
 
 public class GraphAdjList {
+
+    // BFS Traversal
+    public static void bfs(int start, ArrayList<ArrayList<Integer>> graph, int V) {
+        boolean[] visited = new boolean[V];
+        Queue<Integer> queue = new LinkedList<>();
+
+        visited[start] = true;
+        queue.add(start);
+
+        System.out.print("BFS: ");
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            System.out.print(node + " ");
+
+            for (int neighbor : graph.get(node)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.add(neighbor);
+                }
+            }
+        }
+        System.out.println();
+    }
+
+    // DFS Traversal (Recursive)
+    public static void dfs(int node, boolean[] visited, ArrayList<ArrayList<Integer>> graph) {
+        visited[node] = true;
+        System.out.print(node + " ");
+
+        for (int neighbor : graph.get(node)) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, visited, graph);
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
-        int V = 6; // number of vertices
+        int V = 6;
 
-        // Create adjacency list
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 
-        // Initialize empty lists for all vertices
         for (int i = 0; i < V; i++) {
             graph.add(new ArrayList<>());
         }
 
-        // Add edges (undirected graph)
+        // Add edges
         graph.get(0).add(1);
         graph.get(0).add(2);
 
@@ -31,12 +66,17 @@ public class GraphAdjList {
         graph.get(4).add(1);
         graph.get(4).add(3);
 
-        // vertex 5 has no connections
-
         // Print adjacency list
         for (int i = 0; i < V; i++) {
-            System.out.print(i + " -> ");
-            System.out.println(graph.get(i));
+            System.out.println(i + " -> " + graph.get(i));
         }
+
+        // Run BFS from node 0
+        bfs(0, graph, V);
+
+        // Run DFS from node 0
+        boolean[] visited = new boolean[V];
+        System.out.print("DFS: ");
+        dfs(0, visited, graph);
     }
 }
